@@ -15,9 +15,10 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     ImageView dob1, dob2;
-    TextView eredmeny;
+    TextView eredmeny, probal;
     Button button,ujra;
 
+    int i = 0;
     int[] diceImages = {
             R.drawable.dobo1,
             R.drawable.dobo2,
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         eredmeny = findViewById(R.id.eredmeny);
         button = findViewById(R.id.button);
         ujra = findViewById((R.id.ujra));
+        probal = findViewById(R.id.probal);
 
         button.setOnClickListener(v -> dob());
         ujra.setOnClickListener(v -> uj());
@@ -45,8 +47,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void dob() {
-        Random random = new Random();
 
+        dob1.setVisibility(View.VISIBLE);
+        dob2.setVisibility(View.VISIBLE);
+        probal.setVisibility(View.VISIBLE);
+
+        Random random = new Random();
+        i++;
         // dobas1
         int dobas1 = random.nextInt(6) + 1;
         dob1.setImageResource(diceImages[dobas1 - 1]);
@@ -57,14 +64,14 @@ public class MainActivity extends AppCompatActivity {
 
         int osszeg = dobas1 + dobas2;
         eredmeny.setText("EREDMÉNY:   " + osszeg);
-
+        probal.setText("Próbálkozások: "+i);
         //gameover
         if (osszeg == 7) {
             eredmeny.setText("Vége a játéknak! (7)");
             button.setEnabled(false);  // letiltja a gombot
-            button.setVisibility(View.GONE);
+            button.setVisibility(View.INVISIBLE);
             ujra.setVisibility(View.VISIBLE);
-
+            ujra.setEnabled(true);
         }
 
 
@@ -73,8 +80,13 @@ public class MainActivity extends AppCompatActivity {
     private void uj(){
         eredmeny.setText("");
         button.setEnabled(true);
+        ujra.setEnabled(false);
         button.setVisibility(View.VISIBLE);
-        ujra.setVisibility(View.GONE);
+        ujra.setVisibility(View.INVISIBLE);
+        dob1.setVisibility(View.INVISIBLE);
+        dob2.setVisibility(View.INVISIBLE);
+        probal.setVisibility(View.INVISIBLE);
+        i = 0;
     }
 
 }
